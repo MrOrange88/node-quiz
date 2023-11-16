@@ -1,51 +1,72 @@
 const readline = require('readline');
 
-let rl = readline.createInterface(
-    process.stdin, process.stdout);
-
-let eingabe = process.stdin;
-let ausgabe = process.stdout;
-
-
-
-let question = [
+let questions = [
     {
-        question: ("Wie heißt du?" + eingabe)
-        answer: ("Du heißt also:" + ausgabe)
+        question: "Wie heißt du?",
+        answer: "Du heißt also:"
     },
     {
-        question: ("Wie alt bist du?" + eingabe)
-        answer: ("Du bist also schon:" + ausgabe)
-
+        question: "Wie alt bist du?",
+        answer: "Du bist also schon:"
+    },
+    {
+        question: "Wie 🙊 bist du?",
+        answer: "Du bist also schon:"
+    },
+    {
+        question: "Wie 😅 bist du?",
+        answer: "Du bist also schon:"
+    },
+    {
+        question: "Wie 🖕 bist du?",
+        answer: "Du bist also schon:"
     }
-];
+]
 
-function displayQuestion() {
-    question = rl;
-
+function askSomething(question, answer, done) {
+    const rl = readline.createInterface(
+        process.stdin, 
+        process.stdout
+    )
+    rl.question(question + " ", (input) => {
+        console.log(answer, input)
+        rl.close()
+        done && done()
+    })
 }
 
-rl.question('What is your Name? ', (name) => {
-    console.log('Your Name is: ' + name)
-});
-rl.question('Wie alt bist du? ', (age) => {
-    console.log('Ach du bist also: ' + age)
-});
+function nextQuestion(nextIndex = 0) {
+    if (nextIndex < questions.length) {
+        const q = questions[nextIndex]
+        askSomething(q.question, q.answer, function() {
+            nextQuestion(nextIndex + 1)
+        })
+    }
+}
 
+nextQuestion()
 
+// TODO kann ich schleifen nutzen? Für die x Fragen die ich habe
+// TODO Kann ich die Callback Schreibweise durch etwas ersetzen, das nicht zu Pyramiden führt
 
-
-
-
-
-
-
-
-
-
-
+// callback schreibweise
+// yield generator schreibweise
+// promise schreibweise
+// async/await
 
 
 //TODO erstelle 5 fragen auf die geantwortet werden kann
 // und gebe die antworten aus!!
 //git repository erstellen und pushen!
+// JavaScript arbeitet primär in einem EventLoop
+// Theads
+// iteration
+// rekursion
+
+/*
+    Was ist ein Algorithmus?
+
+    1. Eine Lösung für ein klar definiertes Problem
+    2. Deterministisch - Hat ein vordefiniertes Ende
+       Alle Ereignisse eindeutig vorherbestimmt
+*/
